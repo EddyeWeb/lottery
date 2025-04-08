@@ -1,60 +1,19 @@
 <template>
-  <div class="p-6 bg-gray-800 rounded-lg shadow-lg text-white text-center">
-    <h2 class="text-3xl font-bold mb-6">Lottó Szimulátor</h2>
+  <div class="min-w-md p-6 bg-gray-800 rounded-lg shadow-lg text-white text-center">
+    <NumberInputGroup
+      :user-numbers="userNumbers"
+      :use-random-numbers="useRandomNumbers"
+      @toggle-random="toggleRandomMode"
+      @validate="validateInput"
+    />
 
-    <div class="mb-4">
-      <h3 class="text-xl font-semibold">Adj meg 5 számot (1-90 között, ne ismétlődjenek)</h3>
-      <div class="flex justify-center gap-2 mt-2">
-        <input
-          v-for="(num, index) in userNumbers"
-          :key="index"
-          v-model.number="userNumbers[index]"
-          type="number"
-          min="1"
-          max="90"
-          inputmode="numeric"
-          pattern="[0-9]*"
-          class="w-12 h-12 text-center rounded bg-gray-700 text-white no-spinner"
-          :disabled="useRandomNumbers"
-          @input="validateInput(index)"
-        />
-      </div>
-      <button @click="toggleRandomMode" class="mt-2 px-3 py-1 bg-yellow-500 rounded text-black">
-        {{ useRandomNumbers ? "Saját számok használata" : "Véletlenszerű számok használata" }}
-      </button>
-    </div>
+    <DrawnNumbers :drawn-numbers="drawnNumbers" />
 
-    <div class="mt-6">
-      <h3 class="text-xl font-semibold">Kihúzott számok</h3>
-      <div class="flex justify-center gap-4 mt-2">
-        <div
-          v-for="num in drawnNumbers"
-          :key="num"
-          class="w-12 h-12 flex items-center justify-center bg-blue-500 rounded-full text-lg font-bold"
-        >
-          {{ num }}
-        </div>
-      </div>
-    </div>
+    <MatchStats :match-stats="matchStats" />
 
-    <div class="mt-6">
-      <h3 class="text-xl font-semibold">Találati statisztika</h3>
-      <p class="text-sm">2 találatos: {{ matchStats[2] }} db</p>
-      <p class="text-sm">3 találatos: {{ matchStats[3] }} db</p>
-      <p class="text-sm">4 találatos: {{ matchStats[4] }} db</p>
-      <p class="text-sm">5 találatos (Főnyeremény!): {{ matchStats[5] }} db</p>
-    </div>
+    <TicketInfo :ticket-count="ticketCount" :total-cost="totalCost" />
 
-    <div class="mt-6">
-      <h3 class="text-xl font-semibold">Szelvények és költség</h3>
-      <p class="text-sm">Feladott szelvények száma: {{ ticketCount }}</p>
-      <p class="text-sm">Összes költség: {{ totalCost }} Ft</p>
-    </div>
-
-    <div class="mt-6">
-      <h3 class="text-xl font-semibold">Eltelt idő</h3>
-      <p class="text-sm">Összesen eltelt idő: {{ elapsedYears }} év</p>
-    </div>
+    <ElapsedTime :years="elapsedYears" />
 
     <div class="mt-6">
       <label for="speed" class="block text-sm font-medium">Sorsolási sebesség</label>
@@ -78,6 +37,11 @@
 
 <script setup>
 import { ref } from "vue";
+import NumberInputGroup from "./NumberInputGroup.vue";
+import DrawnNumbers from "./DrawnNumbers.vue";
+import MatchStats from "./MatchStats.vue";
+import TicketInfo from "./TicketInfo.vue";
+import ElapsedTime from "./ElapsedTime.vue";
 
 const drawnNumbers = ref([]);
 const userNumbers = ref([1, 2, 3, 4, 5]);
@@ -113,7 +77,10 @@ const drawNumbers = () => {
 
   const matches = drawnNumbers.value.filter(num => userNumbers.value.includes(num)).length;
   if (matches >= 2) {
-    matchStats.value[matches]++;
+    matchStats.value = {
+      ...matchStats.value,
+      [matches]: matchStats.value[matches] + 1
+    };
   }
 
   ticketCount.value++;
@@ -124,28 +91,6 @@ const drawNumbers = () => {
     clearInterval(intervalId);
     isDrawing.value = false;
     alert(`Gratulálunk! Megnyerted az 5 találatos főnyereményt ${elapsedYears.value} év alatt!`);
-  }
-};
-
-const toggleRandomMode = () => {
-  useRandomNumbers.value = !useRandomNumbers.value;
-  if (useRandomNumbers.value) {
-    randomizeNumbers();
-  } else {
-    userNumbers.value = [1, 2, 3, 4, 5];
-  }
-};
-
-const validateInput = (index) => {
-  let value = userNumbers.value[index];
-
-  if (value < 1) userNumbers.value[index] = 1;
-  if (value > 90) userNumbers.value[index] = 90;
-  if (isNaN(value)) userNumbers.value[index] = null;
-
-  const uniqueNumbers = new Set(userNumbers.value);
-  if (uniqueNumbers.size < userNumbers.value.length) {
-    userNumbers.value[index] = null;
   }
 };
 
@@ -172,15 +117,26 @@ const updateSpeed = () => {
     intervalId = setInterval(drawNumbers, speed.value);
   }
 };
-</script>
 
-<style>
-.no-spinner::-webkit-outer-spin-button,
-.no-spinner::-webkit-inner-spin-button {
-  appearance: none;
-  margin: 0;
-}
-.no-spinner {
-  appearance: none;
-}
-</style>
+const toggleRandomMode = () => {
+  useRandomNumbers.value = !useRandomNumbers.value;
+  if (useRandomNumbers.value) {
+    randomizeNumbers();
+  } else {
+    userNumbers.value = [1, 2, 3, 4, 5];
+  }
+};
+
+const validateInput = (index) => {
+  let value = userNumbers.value[index];
+
+  if (value < 1) userNumbers.value[index] = 1;
+  if (value > 90) userNumbers.value[index] = 90;
+  if (isNaN(value)) userNumbers.value[index] = null;
+
+  const uniqueNumbers = new Set(userNumbers.value);
+  if (uniqueNumbers.size < userNumbers.value.length) {
+    userNumbers.value[index] = null;
+  }
+};
+</script>
