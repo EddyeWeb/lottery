@@ -1,5 +1,13 @@
 <template>
-  <div class="min-w-md p-6 bg-gray-800 rounded-lg shadow-lg text-white text-center">
+  <div class="lottery-base bg-white text-black max-w-full">
+    <h1>
+      Result
+    </h1>
+
+    <TicketInfo :ticket-count="ticketCount" :years="elapsedYears" :total-cost="totalCost" />
+
+    <MatchStats :match-stats="matchStats" />
+
     <NumberInputGroup
       :user-numbers="userNumbers"
       :use-random-numbers="useRandomNumbers"
@@ -9,14 +17,8 @@
 
     <DrawnNumbers :drawn-numbers="drawnNumbers" />
 
-    <MatchStats :match-stats="matchStats" />
-
-    <TicketInfo :ticket-count="ticketCount" :total-cost="totalCost" />
-
-    <ElapsedTime :years="elapsedYears" />
-
     <div class="mt-6">
-      <label for="speed" class="block text-sm font-medium">Sorsolási sebesség</label>
+      <p class="mt-2 text-sm">Speed: {{ speed }} ms</p>
       <input
         id="speed"
         type="range"
@@ -26,7 +28,6 @@
         class="w-full mt-2"
         @input="updateSpeed"
       />
-      <p class="mt-2 text-sm">Sebesség: {{ speed }} ms</p>
     </div>
 
     <button @click="toggleDraw" class="mt-4 px-4 py-2 bg-green-500 rounded text-white">
@@ -41,7 +42,6 @@ import NumberInputGroup from "./NumberInputGroup.vue";
 import DrawnNumbers from "./DrawnNumbers.vue";
 import MatchStats from "./MatchStats.vue";
 import TicketInfo from "./TicketInfo.vue";
-import ElapsedTime from "./ElapsedTime.vue";
 
 const drawnNumbers = ref([]);
 const userNumbers = ref([1, 2, 3, 4, 5]);

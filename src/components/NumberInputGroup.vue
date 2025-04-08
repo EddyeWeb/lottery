@@ -1,6 +1,5 @@
 <template>
   <div class="mb-4">
-    <h3 class="text-xl font-semibold">Számaim</h3>
     <div class="flex justify-center gap-2 mt-2">
       <input
         v-for="(num, index) in userNumbers"
