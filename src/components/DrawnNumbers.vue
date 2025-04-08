@@ -1,11 +1,11 @@
 <template>
-  <div class="mt-6">
-    <h3 class="text-xl font-semibold">Kihúzott számok</h3>
-    <div class="flex justify-center gap-4 mt-2">
+  <div class="number-output">
+    <div class="flex flex-wrap items-center gap-2 mt-2">
+      <p class="w-full md:w-auto">Winning numbers:</p>
       <div
         v-for="num in drawnNumbers"
         :key="num"
-        class="w-12 h-12 flex items-center justify-center bg-blue-500 rounded-full text-lg font-bold"
+        class="w-12 h-12 text-center mb-2 md:mb-0"
       >
         {{ num }}
       </div>

@@ -1,6 +1,7 @@
 <template>
-  <div class="mb-4">
-    <div class="flex justify-center gap-2 mt-2">
+  <div class="number-input">
+    <div class="flex flex-wrap items-center gap-2 mt-4 mb-4">
+      <p class="w-full md:w-auto">Your numbers:</p>
       <input
         v-for="(num, index) in userNumbers"
         :key="index"
@@ -10,13 +11,16 @@
         max="90"
         inputmode="numeric"
         pattern="[0-9]*"
-        class="w-12 h-12 text-center rounded bg-gray-700 text-white no-spinner"
+        class="w-12 h-12 text-center no-spinner mb-2 md:mb-0"
         :disabled="useRandomNumbers"
         @input="$emit('validate', index)"
       />
     </div>
-    <button @click="$emit('toggle-random')" class="mt-2 px-3 py-1 bg-yellow-500 rounded text-black">
-      {{ useRandomNumbers ? "Saját számok használata" : "Véletlenszerű számok használata" }}
+    <button
+      @click="$emit('toggle-random')"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+    >
+      {{ useRandomNumbers ? "Play with personal numbers" : "Play with random numbers" }}
     </button>
   </div>
 </template>

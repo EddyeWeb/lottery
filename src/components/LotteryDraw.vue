@@ -8,6 +8,8 @@
 
     <MatchStats :match-stats="matchStats" />
 
+    <DrawnNumbers :drawn-numbers="drawnNumbers" />
+
     <NumberInputGroup
       :user-numbers="userNumbers"
       :use-random-numbers="useRandomNumbers"
@@ -15,9 +17,7 @@
       @validate="validateInput"
     />
 
-    <DrawnNumbers :drawn-numbers="drawnNumbers" />
-
-    <div class="mt-6">
+    <div class="my-5">
       <p class="mt-2 text-sm">Speed: {{ speed }} ms</p>
       <input
         id="speed"
@@ -30,8 +30,8 @@
       />
     </div>
 
-    <button @click="toggleDraw" class="mt-4 px-4 py-2 bg-green-500 rounded text-white">
-      {{ isDrawing ? "Sorsolás leállítása" : "Sorsolás indítása" }}
+    <button @click="toggleDraw" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      {{ isDrawing ? "Stop" : "Start" }}
     </button>
   </div>
 </template>
@@ -90,7 +90,7 @@ const drawNumbers = () => {
   if (matches === 5) {
     clearInterval(intervalId);
     isDrawing.value = false;
-    alert(`Gratulálunk! Megnyerted az 5 találatos főnyereményt ${elapsedYears.value} év alatt!`);
+    alert(`Congratulations! You won the 5-match jackpot in ${elapsedYears.value} years!`);
   }
 };
 
@@ -98,7 +98,7 @@ const toggleDraw = () => {
   const uniqueNumbers = new Set(userNumbers.value);
 
   if (uniqueNumbers.size < userNumbers.value.length) {
-    alert("Nem indítható a sorsolás, mert ismétlődő számokat adtál meg!");
+    alert("The drawing cannot be started because you have entered duplicate numbers!");
     return;
   }
 

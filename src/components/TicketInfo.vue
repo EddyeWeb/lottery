@@ -1,8 +1,14 @@
 <template>
-  <div class="ticket-info">
-    <p class="text-sm">Number of tickets: {{ ticketCount }}</p>
-    <p class="text-sm">Years spent: {{ years }}</p>
-    <p class="text-sm">Cost of tickets: {{ totalCost }} Ft</p>
+  <div class="ticket-info bg-blue-500">
+    <div>
+      <p><strong><span>Number of tickets:</span> {{ ticketCount }}</strong></p>
+    </div>
+    <div>
+      <p><span>Years spent:</span> {{ years }}</p>
+    </div>
+    <div>
+      <p><span>Cost of tickets:</span> {{ totalCost }} Ft</p>
+    </div>
   </div>
 </template>
 

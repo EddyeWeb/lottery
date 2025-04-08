@@ -2,6 +2,8 @@
 
 body {
   background-color: #f0f4f8;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='30' viewBox='0 0 1000 120'%3E%3Cg fill='none' stroke='%239CB8EC' stroke-width='2.6' stroke-opacity='0.42'%3E%3Cpath d='M-500 75c0 0 125-30 250-30S0 75 0 75s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 45c0 0 125-30 250-30S0 45 0 45s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 105c0 0 125-30 250-30S0 105 0 105s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 15c0 0 125-30 250-30S0 15 0 15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500-15c0 0 125-30 250-30S0-15 0-15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 135c0 0 125-30 250-30S0 135 0 135s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3C/g%3E%3C/svg%3E");
+  background-attachment: fixed;
   font-family: 'Nunito Sans', sans-serif;
 }
 
@@ -21,17 +23,25 @@ body {
 }
 
 .ticket-info {
-  background: #A5D9C8;
   border-radius: 10px;
   padding: 18px 24px;
   color: white;
   width: 50%;
+  min-width: 25rem;
   margin: 32px 0;
+
+  p {
+    span {
+      display: inline-block;
+      width: 50%;
+    }
+  }
 }
 
 .matches {
   filter: drop-shadow(1px 1px 6px rgba(0, 0, 0, 0.15));
   border-radius: 10px;
+  margin-bottom: 25px;
 
   div {
     border: 1px solid #F6F0C6;
@@ -45,5 +55,31 @@ body {
     &:last-child {
       border-radius: 0px 10px 10px 0px;
     }
+  }
+}
+
+.number-input {
+  input {
+    border: 1px solid #A5D9C8;
+    border-radius: 10px;
+    filter: drop-shadow(1px 1px 6px rgba(0, 0, 0, 0.15));
+  }
+}
+
+.number-output {
+  div div {
+    border: 1px solid #A5D9C8;
+    border-radius: 10px;
+    filter: drop-shadow(1px 1px 6px rgba(0, 0, 0, 0.15));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.number-input, .number-output {
+  p {
+    display: block;
+    width: 10rem;
   }
 }
