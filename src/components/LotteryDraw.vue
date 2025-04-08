@@ -1,6 +1,6 @@
 <template>
   <div class="p-6 bg-gray-800 rounded-lg shadow-lg text-white text-center">
-    <h2 class="text-2xl font-bold mb-4">Lottó Szimulátor</h2>
+    <h2 class="text-3xl font-bold mb-6">Lottó Szimulátor</h2>
 
     <div class="mb-4">
       <h3 class="text-xl font-semibold">Adj meg 5 számot (1-90 között, ne ismétlődjenek)</h3>
@@ -46,6 +46,17 @@
     </div>
 
     <div class="mt-6">
+      <h3 class="text-xl font-semibold">Szelvények és költség</h3>
+      <p class="text-sm">Feladott szelvények száma: {{ ticketCount }}</p>
+      <p class="text-sm">Összes költség: {{ totalCost }} Ft</p>
+    </div>
+
+    <div class="mt-6">
+      <h3 class="text-xl font-semibold">Eltelt idő</h3>
+      <p class="text-sm">Összesen eltelt idő: {{ elapsedYears }} év</p>
+    </div>
+
+    <div class="mt-6">
       <label for="speed" class="block text-sm font-medium">Sorsolási sebesség</label>
       <input
         id="speed"
@@ -74,6 +85,11 @@ const speed = ref(500);
 const isDrawing = ref(false);
 const useRandomNumbers = ref(false);
 const matchStats = ref({ 2: 0, 3: 0, 4: 0, 5: 0 });
+const ticketCount = ref(0);
+const totalCost = ref(0);
+const elapsedYears = ref(0);
+const ticketPrice = 300;
+const weeksInYear = 52;
 let intervalId = null;
 
 const randomizeNumbers = () => {
@@ -98,6 +114,16 @@ const drawNumbers = () => {
   const matches = drawnNumbers.value.filter(num => userNumbers.value.includes(num)).length;
   if (matches >= 2) {
     matchStats.value[matches]++;
+  }
+
+  ticketCount.value++;
+  totalCost.value = ticketCount.value * ticketPrice;
+  elapsedYears.value = Math.floor(ticketCount.value / weeksInYear);
+
+  if (matches === 5) {
+    clearInterval(intervalId);
+    isDrawing.value = false;
+    alert(`Gratulálunk! Megnyerted az 5 találatos főnyereményt ${elapsedYears.value} év alatt!`);
   }
 };
 
